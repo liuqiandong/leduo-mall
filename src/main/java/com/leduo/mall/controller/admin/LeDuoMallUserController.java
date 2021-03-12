@@ -36,7 +36,7 @@ public class LeDuoMallUserController {
     @GetMapping("/users")
     public String usersPage(HttpServletRequest request) {
         request.setAttribute("path", "users");
-        return "admin/newbee_mall_user";
+        return "leduo_mall_user";
     }
 
     /**

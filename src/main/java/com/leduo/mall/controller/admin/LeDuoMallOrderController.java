@@ -43,7 +43,7 @@ public class LeDuoMallOrderController {
     public String ordersPage(HttpServletRequest request) {
         request.setAttribute("path", "orders");
         System.out.println(request);
-        return "admin/newbee_mall_order";
+        return "leduo_mall_order";
     }
 
     /**

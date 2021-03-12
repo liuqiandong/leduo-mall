@@ -46,7 +46,7 @@ public class LeDuoMallGoodsCategoryController {
         request.setAttribute("parentId", parentId);
         request.setAttribute("backParentId", backParentId);
         request.setAttribute("categoryLevel", categoryLevel);
-        return "admin/newbee_mall_category";
+        return "leduo_mall_category";
     }
 
     /**
