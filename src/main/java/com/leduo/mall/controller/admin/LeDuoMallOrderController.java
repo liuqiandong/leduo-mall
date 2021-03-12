@@ -42,6 +42,7 @@ public class LeDuoMallOrderController {
     @GetMapping("/orders")
     public String ordersPage(HttpServletRequest request) {
         request.setAttribute("path", "orders");
+        System.out.println(request);
         return "admin/newbee_mall_order";
     }
 
