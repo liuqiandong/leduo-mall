@@ -40,8 +40,8 @@ public class LeDuoMallGoodsController {
 
     @GetMapping("/goods")
     public String goodsPage(HttpServletRequest request) {
-        request.setAttribute("path", "newbee_mall_goods");
-        return "leduo_mall_goods";
+        request.setAttribute("path", "leduo_mall_goods");
+        return "admin/leduo_mall_goods";
     }
 
     @GetMapping("/goods/edit")
@@ -59,7 +59,7 @@ public class LeDuoMallGoodsController {
                 request.setAttribute("secondLevelCategories", secondLevelCategories);
                 request.setAttribute("thirdLevelCategories", thirdLevelCategories);
                 request.setAttribute("path", "goods-edit");
-                return "leduo_mall_goods_edit";
+                return "admin/leduo_mall_goods_edit";
             }
         }
         return "error/error_5xx";
@@ -119,7 +119,7 @@ public class LeDuoMallGoodsController {
         }
         request.setAttribute("goods", leDuoMallGoods);
         request.setAttribute("path", "goods-edit");
-        return "leduo_mall_goods_edit";
+        return "admin/leduo_mall_goods_edit";
     }
 
     /**

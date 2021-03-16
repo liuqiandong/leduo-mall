@@ -46,7 +46,7 @@ public class LeDuoMallGoodsIndexConfigController {
 
         request.setAttribute("path", indexConfigTypeEnum.getName());
         request.setAttribute("configType", configType);
-        return "leduo_mall_index_config";
+        return "admin/leduo_mall_index_config";
     }
 
     /**

@@ -38,8 +38,8 @@ public class LeDuoMallCarouselController {
 
     @GetMapping("/carousels")
     public String carouselPage(HttpServletRequest request) {
-        request.setAttribute("path", "newbee_mall_carousel");
-        return "leduo_mall_carousel";
+        request.setAttribute("path", "leduo_mall_carousel");
+        return "admin/leduo_mall_carousel";
     }
 
     /**
