@@ -8,14 +8,22 @@
  */
 package com.leduo.mall.controller.mall;
 
+import com.alibaba.fastjson.JSONObject;
+import com.alipay.api.AlipayApiException;
+import com.alipay.api.DefaultAlipayClient;
+import com.alipay.api.request.AlipayTradePagePayRequest;
 import com.leduo.mall.common.Constants;
 import com.leduo.mall.common.LeDuoMallException;
+import com.leduo.mall.common.PayTypeEnum;
 import com.leduo.mall.common.ServiceResultEnum;
+import com.leduo.mall.config.AlipayConfig;
 import com.leduo.mall.controller.vo.LeDuoMallIndexConfigGoodsVO;
 import com.leduo.mall.controller.vo.LeDuoMallOrderDetailVO;
 import com.leduo.mall.controller.vo.LeDuoMallShoppingCartItemVO;
 import com.leduo.mall.controller.vo.LeDuoMallUserVO;
+import com.leduo.mall.dao.LeDuoMallOrderItemMapper;
 import com.leduo.mall.entity.LeDuoMallOrder;
+import com.leduo.mall.entity.LeDuoMallOrderItem;
 import com.leduo.mall.service.LeDuoMallIndexConfigService;
 import com.leduo.mall.service.LeDuoMallOrderService;
 import com.leduo.mall.service.LeDuoMallShoppingCartService;
@@ -31,7 +39,10 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -153,18 +164,50 @@ public class OrderController {
     }
 
     @GetMapping("/payPage")
-    public String payOrder(HttpServletRequest request, @RequestParam("orderNo") String orderNo, HttpSession httpSession, @RequestParam("payType") int payType) {
+    public void payOrder(@RequestParam("orderNo") String orderNo, HttpSession httpSession, HttpServletResponse response, @RequestParam("payType") int payType) throws Exception {
         LeDuoMallUserVO user = (LeDuoMallUserVO) httpSession.getAttribute(Constants.MALL_USER_SESSION_KEY);
         LeDuoMallOrder leDuoMallOrder = leDuoMallOrderService.getNewBeeMallOrderByOrderNo(orderNo);
         //todo 判断订单userId
         //todo 判断订单状态
-        request.setAttribute("orderNo", orderNo);
-        request.setAttribute("totalPrice", leDuoMallOrder.getTotalPrice());
+        httpSession.setAttribute("totalPrice", leDuoMallOrder.getTotalPrice());
+        httpSession.setAttribute("orderNo",orderNo);
         if (payType == 1) {
-            return "mall/alipay";
+//支付宝支付
+            System.out.println("正在支付");
+            DefaultAlipayClient client = new DefaultAlipayClient(AlipayConfig.gatewayUrl,AlipayConfig.app_id,AlipayConfig.merchant_private_key,"json",AlipayConfig.charset,AlipayConfig.alipay_public_key,AlipayConfig.sign_type);
+
+            AlipayTradePagePayRequest alipayTradePagePayRequest = new AlipayTradePagePayRequest();
+            //alipayTradePagePayRequest.setNotifyUrl(AlipayConfig.notify_url);//调方法
+            alipayTradePagePayRequest.setReturnUrl(AlipayConfig.return_url);//跳页面
+            Map<String,Object> map = new HashMap<>();
+            map.put("out_trade_no",httpSession.getAttribute("orderNo"));//订单号
+            map.put("product_code","FAST_INSTANT_TRADE_PAY");//PC端支付方式
+            map.put("total_amount",httpSession.getAttribute("totalPrice")+".00");//交易金额
+            map.put("subject","乐多电商");
+            String string = JSONObject.toJSONString(map);
+            alipayTradePagePayRequest.setBizContent(string);
+            String body = client.pageExecute(alipayTradePagePayRequest).getBody();
+            response.setContentType("text/html;charset=utf-8");
+            response.getWriter().write(body);
+            response.getWriter().flush();
+            response.getWriter().close();
         } else {
-            return "mall/wxpay";
+            response.sendRedirect("/weixin/pay");
         }
+    }
+
+    @GetMapping("/weixin/pay")
+    public String pay(HttpSession session,HttpServletRequest request){
+        request.setAttribute("orderNo",session.getAttribute("orderNo"));
+        request.setAttribute("totalPrice",session.getAttribute("totalPrice"));
+        leDuoMallOrderService.paySuccess((String) session.getAttribute("orderNo"), PayTypeEnum.WEIXIN_PAY.getPayType());
+        return "mall/wxpay";
+    }
+
+    @GetMapping("/alipay")
+    public void alipay(HttpSession session,HttpServletResponse response) throws IOException {
+        leDuoMallOrderService.paySuccess((String) session.getAttribute("orderNo"), PayTypeEnum.ALI_PAY.getPayType());
+        response.sendRedirect("/index");
     }
 
     @GetMapping("/paySuccess")

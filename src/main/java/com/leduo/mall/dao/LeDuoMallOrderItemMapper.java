@@ -49,4 +49,5 @@ public interface LeDuoMallOrderItemMapper {
     int updateByPrimaryKeySelective(LeDuoMallOrderItem record);
 
     int updateByPrimaryKey(LeDuoMallOrderItem record);
+
 }

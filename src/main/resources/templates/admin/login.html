@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>newbee-mall管理系统 | Log in</title>
+    <title>LeDuo-mall管理系统</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" th:href="@{/admin/dist/img/favicon.png}"/>
@@ -57,7 +57,7 @@
                 </div>
                 <div class="row">
                     <div class="col-6">
-                        <input type="text" class="form-control" name="verifyCode" placeholder="请输入验证码" required="true">
+                        <input type="text" class="form-control" name="verifyCode" placeholder="请输入验证码" required="true" onkeyup="this.value=this.value.toLowerCase()"/>
                     </div>
                     <div class="col-6">
                         <img alt="单击图片刷新！" class="pointer" th:src="@{/common/kaptcha}"
