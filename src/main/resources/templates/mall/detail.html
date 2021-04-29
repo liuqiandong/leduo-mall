@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="mall/header::head-fragment('LeDuo商城-商品详情','detail')">
+<head th:replace="mall/header::head-fragment('leDuo商城-商品详情','detail')">
 </head>
 <body>
 <header th:replace="mall/header::header-fragment"></header>
@@ -32,8 +32,8 @@
             </div>
         </div>
         <div class="right fr">
-            <div class="h3 ml20 mt20" th:text="${goodsDetail.goodsName}">NewBeeMall</div>
-            <div class="sub_title mr40 ml20 mt10" th:text="${goodsDetail.goodsIntro}">NewBeeMall</div>
+            <div class="h3 ml20 mt20" th:text="${goodsDetail.goodsName}">leDuoMall</div>
+            <div class="sub_title mr40 ml20 mt10" th:text="${goodsDetail.goodsIntro}">leDuoMall</div>
             <div class="item_price mr40 ml20 mt10">
                 <th:block th:text="${goodsDetail.sellingPrice}+'.00 元'"></th:block>
                 <del>
