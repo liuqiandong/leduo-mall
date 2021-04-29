@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 
 /**
+ * 验证码配置
  * dong
  */
 @Controller
