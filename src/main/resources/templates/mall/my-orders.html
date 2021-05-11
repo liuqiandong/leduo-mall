@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="mall/header::head-fragment('NewBee商城-订单列表','my-orders')">
+<head th:replace="mall/header::head-fragment('leDuo商城-订单列表','my-orders')">
 </head>
 <body>
 <header th:replace="mall/header::header-fragment"></header>
@@ -77,7 +77,7 @@
                                                                     </div>
                                                                     <p class="name"><a target="_blank"
                                                                                        th:href="@{'/goods/detail/'+${item.goodsId}}"
-                                                                                       th:text="${item.goodsName}">newbee</a>
+                                                                                       th:text="${item.goodsName}">leDuo</a>
                                                                     </p>
                                                                     <p class="price"
                                                                        th:text="${item.sellingPrice+'元 x '+item.goodsCount}">

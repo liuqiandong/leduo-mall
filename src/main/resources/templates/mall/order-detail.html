@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="mall/header::head-fragment('NewBee商城-订单详情','order-detail')">
+<head th:replace="mall/header::head-fragment('leDuo商城-订单详情','order-detail')">
 </head>
 <link rel="stylesheet" th:href="@{/admin/plugins/sweetalert/sweetalert.css}"/>
 <body>
@@ -145,7 +145,7 @@
                                             <td class="col col-name">
                                                 <p class="name">
                                                     <a target="_blank" th:href="@{'/goods/detail/'+${item.goodsId}}"
-                                                       th:text="${item.goodsName}">newbee</a>
+                                                       th:text="${item.goodsName}">leDuo</a>
                                                 </p>
                                             </td>
                                             <td class="col col-price"><p class="price"
@@ -163,7 +163,7 @@
                                 <table class="info-table">
                                     <tbody>
                                     <tr>
-                                        <td th:text="${orderDetailVO.userAddress}">newbee</td>
+                                        <td th:text="${orderDetailVO.userAddress}">leDuo</td>
                                     </tr>
                                     </tbody>
                                 </table>

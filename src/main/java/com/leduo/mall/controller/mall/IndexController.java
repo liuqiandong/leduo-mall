@@ -9,6 +9,7 @@ import com.leduo.mall.controller.vo.LeDuoMallIndexConfigGoodsVO;
 import com.leduo.mall.service.LeDuoMallCarouselService;
 import com.leduo.mall.service.LeDuoMallCategoryService;
 import com.leduo.mall.service.LeDuoMallIndexConfigService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +22,7 @@ import java.io.IOException;
 import java.util.List;
 
 @Controller
+@Slf4j
 public class IndexController {
 
     @Resource
@@ -36,7 +38,7 @@ public class IndexController {
     public String indexPage(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         List<LeDuoMallIndexCategoryVO> categories = leDuoMallCategoryService.getCategoriesForIndex();
         if (CollectionUtils.isEmpty(categories)) {
-//            return "error/error_5xx";
+            return "error/error_5xx";
         }
         List<LeDuoMallIndexCarouselVO> carousels = leDuoMallCarouselService.getCarouselsForIndex(Constants.INDEX_CAROUSEL_NUMBER);
         List<LeDuoMallIndexConfigGoodsVO> hotGoodses = leDuoMallIndexConfigService.getConfigGoodsesForIndex(IndexConfigTypeEnum.INDEX_GOODS_HOT.getType(), Constants.INDEX_GOODS_HOT_NUMBER);
@@ -47,8 +49,7 @@ public class IndexController {
         request.setAttribute("hotGoodses", hotGoodses);//热销商品
         request.setAttribute("newGoodses", newGoodses);//新品
         request.setAttribute("recommendGoodses", recommendGoodses);//推荐商品
-//        request.getRequestDispatcher("mall/index").forward(request, response);
-//        response.sendRedirect("index");
+        log.info("有人访问了首页");
         return "mall/index";
     }
 }
